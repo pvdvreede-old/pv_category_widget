@@ -26,6 +26,7 @@ class PV_Category_Widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
                 $instance['sub_cat_display'] = strip_tags($new_instance['sub_cat_display']);
+                $instance['capability_limit'] = strip_tags($new_instance['capability_limit']);
 		return $instance;
 	}
 
@@ -34,6 +35,7 @@ class PV_Category_Widget extends WP_Widget {
 		if ( $instance ) {
 			$title = esc_attr( $instance[ 'title' ] );
                         $sub_cat_display = esc_attr( $instance[ 'sub_cat_display' ] );
+                        $capability_limit = esc_attr( $instance[ 'capability_limit' ] );
 		}
 		else {
 			$title = __( 'New title', 'text_domain' );
@@ -46,6 +48,10 @@ class PV_Category_Widget extends WP_Widget {
                 <p>
 		<label for="<?php echo $this->get_field_id('sub_cat_display'); ?>"><?php _e('Only display sub cateogies of (enter category id):'); ?></label> 
 		<input class="widefat" id="<?php echo $this->get_field_id('sub_cat_display'); ?>" name="<?php echo $this->get_field_name('sub_cat_display'); ?>" type="text" value="<?php echo $sub_cat_display; ?>" />
+		</p>
+                <p>
+		<label for="<?php echo $this->get_field_id('capability_limit'); ?>"><?php _e('Only show this menu to people with this capability (blank for all visitors):'); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id('capability_limit'); ?>" name="<?php echo $this->get_field_name('capability_limit'); ?>" type="text" value="<?php echo $capability_limit; ?>" />
 		</p>
 		<?php 
 	}
