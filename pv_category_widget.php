@@ -22,21 +22,42 @@ class PV_Category_Widget extends WP_Widget {
         extract($args);
         $title = apply_filters('widget_title', $instance['title']);
         $capability_limit = $instance['capability_limit'];
+        $cats_to_display = $instance['sub_cat_display'];
+
         $display = true;
 
         if ($capability_limit) {
             $display = current_user_can($capability_limit);
         }
 
+        $cat_args = array(
+            'type' => 'post',
+            'taxonomy' => 'category',
+            'hide_empty' => 0
+        );
+
+        if ($cats_to_display) {
+            $cat_args['child_of'] = $cats_to_display;
+        }
+
+        $categories = get_categories($cat_args);
+
         if ($display) {
             echo $before_widget;
-            
+
             if ($title)
                 echo $before_title . $title . $after_title;
             ?>
-
+            <div class="pvcw-categories-display">
+                <ul>
+                <?php foreach ($categories as $category) : ?>
+                
+                    <li><?php echo $category->cat_name; ?></li>
+                
+                <?php endforeach; ?>
+                </ul>
+            </div>
             <?php
-            
             echo $after_widget;
         }
     }
