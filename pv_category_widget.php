@@ -52,7 +52,7 @@ class PV_Category_Widget extends WP_Widget {
                 <ul>
                 <?php foreach ($categories as $category) : ?>
                 
-                    <li><?php echo $category->cat_name; ?></li>
+                    <li><a href="<?php echo get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) ?>"><?php echo $category->name; ?></a></li>
                 
                 <?php endforeach; ?>
                 </ul>
