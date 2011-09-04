@@ -23,9 +23,10 @@ class PV_Category_Widget extends WP_Widget {
         $title = apply_filters('widget_title', $instance['title']);
         $capability_limit = $instance['capability_limit'];
         $cats_to_display = $instance['sub_cat_display'];
+        $hide_empty = $instance['hide_empty'];
 
-        $display = true;
-
+        $display = true;      
+        
         if ($capability_limit) {
             $display = current_user_can($capability_limit);
         }
@@ -33,7 +34,7 @@ class PV_Category_Widget extends WP_Widget {
         $cat_args = array(
             'type' => 'post',
             'taxonomy' => 'category',
-            'hide_empty' => 0
+            'hide_empty' => $hide_empty
         );
 
         if ($cats_to_display) {
@@ -68,6 +69,7 @@ class PV_Category_Widget extends WP_Widget {
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['sub_cat_display'] = strip_tags($new_instance['sub_cat_display']);
         $instance['capability_limit'] = strip_tags($new_instance['capability_limit']);
+        $instance['hide_empty'] = strip_tags($new_instance['hide_empty']);
         return $instance;
     }
 
@@ -77,6 +79,7 @@ class PV_Category_Widget extends WP_Widget {
             $title = esc_attr($instance['title']);
             $sub_cat_display = esc_attr($instance['sub_cat_display']);
             $capability_limit = esc_attr($instance['capability_limit']);
+            $hide_empty = (esc_attr($instance['hide_empty']) == 1) ? 'checked' : '';
         } else {
             $title = __('New title', 'text_domain');
         }
@@ -92,6 +95,10 @@ class PV_Category_Widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id('capability_limit'); ?>"><?php _e('Only show this menu to people with this capability (blank for all visitors):'); ?></label> 
             <input class="widefat" id="<?php echo $this->get_field_id('capability_limit'); ?>" name="<?php echo $this->get_field_name('capability_limit'); ?>" type="text" value="<?php echo $capability_limit; ?>" />
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('hide_empty'); ?>"><?php _e('Hide categories if empty:'); ?></label> 
+            <input  id="<?php echo $this->get_field_id('hide_empty'); ?>" name="<?php echo $this->get_field_name('hide_empty'); ?>" type="checkbox" value="1" <?php echo $hide_empty; ?> />
         </p>
         <?php
     }
