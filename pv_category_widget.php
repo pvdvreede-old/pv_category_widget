@@ -38,7 +38,7 @@ class PV_Category_Widget extends WP_Widget {
         );
 
         if ($cats_to_display) {
-            $cat_args['child_of'] = $cats_to_display;
+            $cat_args['parent'] = $cats_to_display;
         }
 
         $categories = get_categories($cat_args);
